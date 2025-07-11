@@ -5,7 +5,7 @@ import { useAccount, useConnect, useDisconnect, useReadContract, useWriteContrac
 import { injected } from 'wagmi/connectors';
 
 // 1. Импортируем ABI из папки artifacts
-import CounterABI from '../../artifacts/contracts/Counter.sol/Counter.json';
+import CounterABI from '../lib/Counter.json';
 
 // 2. Вставьте сюда адрес вашего развернутого контракта
 const contractAddress = '0xE1589FB801Ea9dC4293618736e053beDE1cbcF62'; 
