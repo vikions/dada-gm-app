@@ -116,19 +116,22 @@ describe("Lock", function () {
 
     describe("Events", function () {
       it("Should emit an event on withdrawals", async function () {
-        const { lock, unlockTime, lockedAmount, publicClient } =
-          await loadFixture(deployOneYearLockFixture);
+  const { lock, unlockTime, lockedAmount, publicClient } =
+    await loadFixture(deployOneYearLockFixture);
 
-        await time.increaseTo(unlockTime);
+  await time.increaseTo(unlockTime);
 
-        const hash = await lock.write.withdraw();
-        await publicClient.waitForTransactionReceipt({ hash });
+  const hash = await lock.write.withdraw();
+  await publicClient.waitForTransactionReceipt({ hash });
 
-        // get the withdrawal events in the latest block
-        const withdrawalEvents = await lock.getEvents.Withdrawal();
-        expect(withdrawalEvents).to.have.lengthOf(1);
-        expect(withdrawalEvents[0].args.amount).to.equal(lockedAmount);
-      });
+  // get the withdrawal events in the latest block
+  const withdrawalEvents = await lock.getEvents.Withdrawal();
+  expect(withdrawalEvents).to.have.lengthOf(1);
+
+  const args = withdrawalEvents[0].args as { amount: bigint };
+  expect(args.amount).to.equal(lockedAmount);
+});
+
     });
   });
 });
